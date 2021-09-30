@@ -3,10 +3,17 @@ kind: API
 metadata:
   name: zero-quest-backend-ship-service
   description: Backend microservice to deal with Ship entity on Quest.
+  tags:
+    - scala
+  links:
+    - url: https://github.com/norwegian-cruise-line/zero-quest-backend-ship-service
+      title: Repo
+      icon: dashboard
 spec:
   type: grpc
   lifecycle: development
   owner: zero-survivors
+  system: quest
   definition: |
     // Copyright 2015 gRPC authors.
 
