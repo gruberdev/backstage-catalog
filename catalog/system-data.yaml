@@ -7,3 +7,14 @@ spec:
   targets:
     - ./systems/quest.yaml
     - https://github.com/kirbymark/backstage_demo/blob/develop/catalog-info.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: example-repo
+  description: Points to an example repo
+spec:
+  type: url
+  targets:
+    - https://github.com/kirbymark/backstage_demo/blob/develop/catalog-info.yaml
+    
