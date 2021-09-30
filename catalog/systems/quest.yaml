@@ -8,7 +8,7 @@ metadata:
   links:
     - url: https://github.com/norwegian-cruise-line/zero-quest
       title: Repo
-      icon: dashboard
+      icon: github
 spec:
   owner: zero-survivors
   domain: sales-service
