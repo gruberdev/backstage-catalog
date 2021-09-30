@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
   name: ncl-corp
-  description: Points to all defined Groups
+  description: Points to defined Groups
 spec:
   targets:
     - ./groups/ncl-root-org.yaml
