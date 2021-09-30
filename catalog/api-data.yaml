@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: api-main-location
+  description: A collection of all defined APIs
+spec:
+  targets:
+    - ./apis/zero-quest-backend-ship-service-api.yaml
