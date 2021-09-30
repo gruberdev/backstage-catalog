@@ -15,13 +15,3 @@ spec:
   profile:
     displayName: Norwegian Cruise Line 
   children: [emerging-technologies]
----
-apiVersion: backstage.io/v1alpha1
-kind: Location
-metadata:
-  name: emerging-technologies-org-data-marker
-  description: Points to Emerging Technologies Teams and Groups
-spec:
-  type: url
-  targets:
-    - ./emerging-technologies.yaml
