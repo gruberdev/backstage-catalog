@@ -1,16 +1,9 @@
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: org-data-marker
+  name: ncl-corp
   description: Points to all defined Groups
-  links:
-    - url: https://www.nclhltd.com/
-      title: Website
-      icon: dashboard
-    - url: https://nclcorp.sharepoint.com/SitePages/NCLH-Teams.aspx
-      title: Intranet
 spec:
-  type: url
   targets:
     - ./groups/ncl-root.yaml
-  children: []
+  
