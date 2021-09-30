@@ -2,6 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: norwegian-cruise-line
+  title: Norwegian Cruise Line
   description: The Norwegian Cruise Line organization
   links:
     - url: https://www.nclhltd.com/
@@ -9,7 +10,7 @@ metadata:
     - url: https://nclcorp.sharepoint.com/SitePages/NCLH-Teams.aspx
       title: Intranet
 spec:
-  type: organization
+  type: root
   profile:
     displayName: Norwegian Cruise Line 
     email: info@example.com
@@ -19,10 +20,9 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Location
 metadata:
-  name: Zero Teams
-  description: All NCL Teams
+  name: emerging-technologies-org-data-marker
+  description: Points to Emerging Technologies Teams and Groups
 spec:
+  type: url
   targets:
-    - ./zero-group.yaml
-    - ./zero-team-nomads.yaml
-    - ./zero-team-survivors.yaml
+    - ./emerging-technologies-group.yaml

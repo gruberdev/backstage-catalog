@@ -6,4 +6,4 @@ metadata:
 spec:
   type: url
   targets:
-    - http://github.com/myorg/myproject/org-data-dump/catalog-info-staff.yaml
+    - ./groups/ncl-root.yaml
