@@ -7,14 +7,14 @@ metadata:
   links:
     - url: https://www.nclhltd.com/
       title: Website
+      icon: dashboard
     - url: https://nclcorp.sharepoint.com/SitePages/NCLH-Teams.aspx
       title: Intranet
 spec:
   type: root
   profile:
     displayName: Norwegian Cruise Line 
-    email: info@example.com
-    picture: https://avatars.dicebear.com/api/jdenticon/as1d12d234234.svg?background=%23fff&margin=25
+    picture: https://github.com/kirbymark/backstage-catalog/blob/develop/catalog/images/ncl_logo.png
   children: [emerging-technologies]
 ---
 apiVersion: backstage.io/v1alpha1
