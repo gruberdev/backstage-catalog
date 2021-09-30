@@ -14,7 +14,6 @@ spec:
   type: root
   profile:
     displayName: Norwegian Cruise Line 
-    picture: https://github.com/kirbymark/backstage-catalog/blob/develop/catalog/images/ncl_logo.png
   children: [emerging-technologies]
 ---
 apiVersion: backstage.io/v1alpha1
