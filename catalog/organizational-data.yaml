@@ -5,5 +5,5 @@ metadata:
   description: Points to all defined Groups
 spec:
   targets:
-    - ./groups/ncl-root.yaml
+    - ./groups/ncl-root-org.yaml
   
