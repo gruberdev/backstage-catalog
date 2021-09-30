@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zero-quest-backend-ship-service
+  description: Backend microservice to deal with Ship entity on Quest.
+  tags:
+    - scala
+    - data
+  links:
+    - url: https://github.com/norwegian-cruise-line/zero-quest-backend-ship-service
+      title: Repo
+      icon: dashboard
+    - url: https://github.com/norwegian-cruise-line/zero-quest-backend-ship-service
+      title: API Spec
+      icon: code
+spec:
+  type: service
+  lifecycle: development
+  owner: zero-survivors
+  system: zero-quest
+  providesApis:
+    - questbackendship-api
+  

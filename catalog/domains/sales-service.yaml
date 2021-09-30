@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: sales-service
+  title: Selling and Service
+  description: Selling and Service
+spec:
+  owner: zero-survivors

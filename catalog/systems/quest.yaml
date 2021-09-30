@@ -11,4 +11,4 @@ metadata:
       icon: dashboard
 spec:
   owner: zero-survivors
-  domain: sales
+  domain: sales-service

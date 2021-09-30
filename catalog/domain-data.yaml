@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: domain-main-location
+  description: Points to defined domains
+spec:
+  targets:
+    - ./domains/sales-service.yaml

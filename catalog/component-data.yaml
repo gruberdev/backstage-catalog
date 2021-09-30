@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: component-main-location
+  description: Points to defined components
+spec:
+  targets:
+    - ./components/zero-quest-backend-ship-service.yaml
