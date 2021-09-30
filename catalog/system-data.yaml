@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: system-main-location
+  description: A collection of all defined systems
+spec:
+  targets:
+    - ./systems/quest.yaml

@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: zero-quest
+  description: Quest
+  tags:
+    - scala
+  links:
+    - url: https://github.com/norwegian-cruise-line/zero-quest
+      title: Repo
+      icon: dashboard
+spec:
+  owner: zero-survivors
+  domain: sales

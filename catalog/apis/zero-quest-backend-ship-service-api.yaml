@@ -13,7 +13,7 @@ spec:
   type: grpc
   lifecycle: development
   owner: zero-survivors
-  system: quest
+  system: zero-quest
   definition: |
     // Copyright 2015 gRPC authors.
 
