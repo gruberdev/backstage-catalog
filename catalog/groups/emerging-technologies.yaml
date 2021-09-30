@@ -8,3 +8,4 @@ spec:
   type: department
   # Intentional no profile for testing
   parent: norwegian-cruise-line
+  children: []
