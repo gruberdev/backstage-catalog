@@ -25,6 +25,6 @@ metadata:
 spec:
   targets:
     - ./emerging-technologies.yaml
-    - ./zero.yaml
-    - ./zero-team-nomads.yaml
-    - ./zero-team-survivors.yaml
+    - ./zero/zero.yaml
+    - ./zero/zero-team-nomads.yaml
+    - ./zero/zero-team-survivors.yaml
