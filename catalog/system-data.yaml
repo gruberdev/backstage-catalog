@@ -6,3 +6,4 @@ metadata:
 spec:
   targets:
     - ./systems/quest.yaml
+    - https://github.com/kirbymark/backstage_demo/blob/develop/catalog-info.yaml
