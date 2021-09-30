@@ -6,7 +6,6 @@ metadata:
 spec:
   targets:
     - ./systems/quest.yaml
-    - https://github.com/kirbymark/backstage_demo/blob/develop/catalog-info.yaml
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Location
