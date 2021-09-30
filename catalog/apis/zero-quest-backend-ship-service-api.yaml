@@ -1,0 +1,519 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: zero-quest-backend-ship-service
+  description: Backend microservice to deal with Ship entity on Quest.
+spec:
+  type: grpc
+  lifecycle: development
+  owner: zero-survivors
+  definition: |
+    // Copyright 2015 gRPC authors.
+
+    syntax = "proto3";
+
+    package questbackendship.entity;
+
+    import "scalapb/scalapb.proto";
+    import "common/types.proto";
+    import "google/protobuf/wrappers.proto";
+    import "questbackendship/questbackendship.proto";
+
+    option java_package = "com.ncl.questbackendship.impl.entity.protobuf";
+
+    option (scalapb.options) = {
+      single_file: true
+      preserve_unknown_fields: false
+      import: "com.ncl.common.utils._"
+      preamble: "sealed trait ShipCommand"
+      preamble: "  extends PersistentCommand"
+      preamble: "sealed trait ShipEvent"
+      preamble: "  extends PersistentEvent[ShipEvent]"
+      preamble: "  {def aggregateTag = com.ncl.questbackendship.impl.entity.ShipEventTags.Sharded}"
+    };
+
+    // commands
+
+    message SaveVacationCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      Vacation vacation = 3;
+    }
+
+    message SaveCabinPropertiesCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      CabinWithProperties cabin_with_properties = 3;
+    }
+
+    message SaveCabinAttributeCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      types.UUID cabin_id = 3;
+
+      CabinAttribute cabin_attribute = 4;
+    }
+
+    message SaveCabinAttributesCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      types.UUID cabin_id = 3;
+
+      repeated CabinAttribute cabin_attributes = 4;
+    }
+
+    message SaveVacationItineraryImageUrlCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      types.UUID vacation_id = 2;
+
+      google.protobuf.StringValue image_url = 3;
+    }
+
+    message SaveCMSTaxonomyCommand {
+      option (scalapb.message).extends = "ShipCommand";
+
+      types.UUID ship_id = 1;
+
+      CMSTaxonomy taxonomy = 2;
+    }
+
+    message GetShipStatsCommand {
+      option (scalapb.message).extends = "ShipCommand";
+    }
+
+    // USED FOR TESTING/DEBUGGING PURPOSES
+    message GetShipCommand {
+      option (scalapb.message).extends = "ShipCommand";
+    }
+
+    // events
+
+    message VacationSavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      Vacation vacation = 3;
+    }
+
+    message CabinPropertiesSavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      CabinWithProperties cabin_with_properties = 3;
+    }
+
+    message CabinAttributeSavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      types.UUID cabin_id = 3;
+
+      CabinAttribute cabin_attribute = 4;
+    }
+
+    message CabinAttributesSavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      types.UUID cabin_id = 3;
+
+      repeated CabinAttribute cabin_attributes = 4;
+    }
+
+    message VacationItineraryImageUrlSavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      types.UUID vacation_id = 2;
+
+      google.protobuf.StringValue image_url = 3;
+    }
+
+    message CMSTaxonomySavedEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID ship_id = 1;
+
+      CMSTaxonomy taxonomy = 2;
+    }
+
+    // vacation calculated events do not change the Ship state
+
+    message VacationWithCabinsEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      types.UUID vacation_id = 1;
+
+      repeated questbackendship.Cabin cabins = 2;
+    }
+
+    message VacationsWithCabinEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      repeated types.UUID vacation_ids = 1;
+
+      questbackendship.Cabin cabin = 2;
+    }
+
+    message VacationsWithCabinAttributeEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      repeated types.UUID vacation_ids = 1;
+
+      types.UUID cabin_id = 2;
+
+      questbackendship.CabinAttribute cabin_attribute = 3;
+    }
+
+    message VacationsWithCabinAttributesEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      repeated types.UUID vacation_ids = 1;
+
+      types.UUID cabin_id = 2;
+
+      repeated questbackendship.CabinAttribute cabin_attributes = 3;
+    }
+
+    // The same taxonomy can be applied to multiple vacations.
+    message TaxonomyEvent {
+      option (scalapb.message).extends = "ShipEvent";
+
+      repeated types.UUID vacation_ids = 1;
+
+      repeated questbackendship.TaxonomyItem taxonomy_items = 2;
+    }
+
+    // state
+
+    message ShipState {
+      option (scalapb.message).extends = "PersistentState";
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      // key: vacation id
+      // value: vacation definition
+      map<string, Vacation> vacations = 3;
+
+      // key: cabin id
+      // value: cabin definition
+      map<string, Cabin> cabins = 4;
+
+      // key: attribute id
+      // value: cabin attribute definition
+      map<string, CabinAttributeDefinition> cabin_attribute_definitions = 5;
+
+      repeated CMSTaxonomy taxonomies = 6;
+    }
+
+    // complementary types
+
+    message Vacation {
+
+      types.UUID id = 1;
+
+      google.protobuf.StringValue name = 2;
+
+      google.protobuf.BoolValue is_active = 3;
+
+      types.DateRange sailing_date_range = 4;
+
+      google.protobuf.StringValue itinerary_image_url = 5;
+    }
+
+    message Cabin {
+
+      types.UUID id = 1;
+
+      google.protobuf.StringValue name = 2;
+
+      google.protobuf.StringValue number = 3;
+
+      // Represents the cabin rank. Usually it is used to order cabins.
+      google.protobuf.Int32Value rank = 4;
+
+      google.protobuf.StringValue deck_name = 5;
+
+      google.protobuf.Int32Value deck_number = 6;
+
+      // Represents if the cabin is OUTSIDE or INSIDE.
+      google.protobuf.StringValue location = 7;
+
+      // Represents the cabin position in a ship which can be: FORWARD, MIDDLE or AFT.
+      google.protobuf.StringValue position = 8;
+
+      // Represents the cabin room side in a ship which can be:
+      // PORTSIDE or STARBOARD.
+      // When looking forward, toward the bow of a ship, port and
+      // starboard refer to the left and right sides, respectively.
+      google.protobuf.StringValue side = 9;
+
+      // key: properties id
+      // value: properties definition
+      map<string, CabinProperties> properties = 10;
+
+      // key: attribute id
+      // value: cabin attribute value definition
+      map<string, CabinAttributeValue> attributes = 11;
+    }
+
+    message CabinProperties {
+
+      types.UUID id = 1;
+
+      types.DateRange effective_date_range = 2;
+
+      types.UUID metacategory_id = 3;
+
+      google.protobuf.StringValue metacategory_name = 4;
+
+      google.protobuf.Int32Value metacategory_rank = 5;
+
+      types.UUID category_id = 6;
+
+      google.protobuf.StringValue category_code = 7;
+
+      google.protobuf.Int32Value category_rank = 8;
+
+      google.protobuf.BoolValue has_concierge = 9;
+
+      types.Decimal total_size_sq_feet = 10;
+
+      types.Decimal room_size_sq_feet = 11;
+
+      types.Decimal balcony_size_sq_feet = 12;
+
+      google.protobuf.Int32Value min_pax_capacity = 13;
+
+      google.protobuf.Int32Value max_pax_capacity = 14;
+
+      // Indicates how many people can be in cabin if it is added an extra bed or something else to sleep.
+      google.protobuf.Int32Value max_pax_fittings = 15;
+
+      // Cabins located in these positions on a ship will fall into one of two
+      // categories: fully obstructed or partially obstructed. The position of
+      // the cabin between the lifeboats will affect the percentage of the
+      // window that will be obstructed, but the most important thing to remember
+      // is that natural light will still flow fully into your stateroom.
+      // References from SEAWARE:
+      // - 979981/BALC-OBSTRUCTED
+      // - 135445/WIN-OBSTRUCTED
+      // TODO: Verify if we can have obstructed_view for both
+      google.protobuf.Int32Value obstructed_window_view = 16;
+
+      // Represents whether the cabin supports Hearing Impaired.
+      google.protobuf.BoolValue is_hearing_impaired = 17;
+
+      // Represents whether the cabin supports WheelChair Accessible.
+      google.protobuf.BoolValue is_wheelchair_accessible = 18;
+
+      // Represents the number of the cabins connected to this one.
+      repeated string connected_cabin_numbers = 19;
+    }
+
+    message CabinAttribute {
+
+      types.UUID id = 1;
+
+      types.DateRange effective_date_range = 2;
+
+      // Attribute name. Ex: Refrigerator
+      google.protobuf.StringValue name = 3;
+
+      // Unique attribute code. Ex: GEN-FRIDGE
+      google.protobuf.StringValue code = 4;
+
+      // Calculated from attribute frequency of use.
+      // (101 - %) just to preserve NCL rank approach.
+      google.protobuf.Int32Value rank = 5;
+
+      // The number of items of this attribute.
+      google.protobuf.Int32Value counter = 6;
+
+      // Attribute type, like Beds, TVs, Generic
+      // Ideally this field should be named type, but it's a reserved word in most of the languages.
+      google.protobuf.StringValue supertype = 7;
+
+      // Allows to group attributes in: Standard or Specific
+      // Any attribute that is 98% or more from Zach’s data is considered a Standard Stateroom Attribute.
+      // Any attribute that is less than 98% from Zach’s data is considered a Stateroom Specific Attribute.
+      google.protobuf.BoolValue is_standard = 8;
+    }
+
+    message CabinAttributeDefinition {
+
+      types.UUID id = 1;
+
+      // Attribute name. Ex: Refrigerator
+      google.protobuf.StringValue name = 2;
+
+      // Unique attribute code. Ex: GEN-FRIDGE
+      google.protobuf.StringValue code = 3;
+
+      // Attribute type, like Beds, TVs, Generic
+      // Ideally this field should be named type, but it's a reserved word in most of the languages.
+      google.protobuf.StringValue supertype = 4;
+
+      // Allows to group attributes in: Standard or Specific
+      // Any attribute that is 98% or more from Zach’s data is considered a Standard Stateroom Attribute.
+      // Any attribute that is less than 98% from Zach’s data is considered a Stateroom Specific Attribute.
+      google.protobuf.BoolValue is_standard = 5;
+    }
+
+    message CabinAttributeValue {
+
+      types.UUID attribute_id = 1;
+
+      types.DateRange effective_date_range = 2;
+
+      // The number of items of this attribute.
+      google.protobuf.Int32Value counter = 3;
+    }
+
+    message CMSTaxonomy {
+
+      types.Date date = 1;
+
+      google.protobuf.Int32Value version = 2;
+
+      repeated Metacategory metacategories = 3;
+
+      message Metacategory {
+
+        google.protobuf.StringValue name = 1;
+
+        // Generic name to identify metacategory in Seaware.
+        google.protobuf.StringValue generic_name = 2;
+
+        google.protobuf.StringValue description = 3;
+
+        // Matches with `weight` field defined on CMS Metacategory data type and
+        // it can be used for sorting operations.
+        google.protobuf.Int32Value rank = 4;
+
+        repeated questbackendship.Image hero_images = 5;
+
+        repeated questbackendship.Image large_images = 6;
+
+        repeated questbackendship.Image floor_plan_images = 7;
+
+        repeated SubMetacategory sub_metacategories = 8;
+      }
+
+      message SubMetacategory {
+
+        google.protobuf.StringValue name = 1;
+
+        google.protobuf.StringValue description = 2;
+
+        // Matches with `weight` field defined on CMS Sub-Metacategory data type and
+        // it can be used for sorting operations.
+        google.protobuf.Int32Value rank = 3;
+
+        questbackendship.Image thumbnail_image = 4;
+
+        repeated questbackendship.Image large_images = 5;
+
+        questbackendship.Image floor_plan_image = 6;
+
+        repeated Category categories = 7;
+      }
+
+      message Category {
+
+        google.protobuf.StringValue code = 1;
+
+        google.protobuf.StringValue description = 2;
+      }
+    }
+
+    message ShipData {
+
+      types.UUID ship_id = 1;
+
+      google.protobuf.StringValue ship_code = 2;
+
+      repeated Vacation vacations = 3;
+
+      repeated Cabin cabins = 4;
+
+      repeated CabinAttributeDefinition cabin_attribute_definitions = 5;
+
+      repeated CMSTaxonomy taxonomies = 6;
+    }
+
+    // complementary types for commands
+
+    message CabinWithProperties {
+
+      types.UUID id = 1;
+
+      google.protobuf.StringValue name = 2;
+
+      google.protobuf.StringValue number = 3;
+
+      // Represents the cabin rank. Usually it is used to order cabins.
+      google.protobuf.Int32Value rank = 4;
+
+      google.protobuf.StringValue deck_name = 5;
+
+      google.protobuf.Int32Value deck_number = 6;
+
+      // Represents if the cabin is OUTSIDE or INSIDE.
+      google.protobuf.StringValue location = 7;
+
+      // Represents the cabin position in a ship which can be: FORWARD, MIDDLE or AFT.
+      google.protobuf.StringValue position = 8;
+
+      // Represents the cabin room side in a ship which can be:
+      // PORTSIDE or STARBOARD.
+      // When looking forward, toward the bow of a ship, port and
+      // starboard refer to the left and right sides, respectively.
+      google.protobuf.StringValue side = 9;
+
+      CabinProperties properties = 10;
+    }
+
+    message ShipStatsResponse {
+
+      questbackendship.ShipStats ship_stats = 1;
+    }
+
+    message ShipResponse {
+
+      ShipData ship = 1;
+    }

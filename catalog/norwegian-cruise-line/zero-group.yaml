@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: zero
+  description: The Emerging Technology department
+spec:
+  type: department
+  # Intentional no profile for testing
+  parent: norwegian-cruise-line
+  children: [zero-nomads, zero-survivors]

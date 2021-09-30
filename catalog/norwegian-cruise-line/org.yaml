@@ -1,0 +1,28 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: norwegian-cruise-line
+  description: The Norwegian Cruise Line organization
+  links:
+    - url: https://www.nclhltd.com/
+      title: Website
+    - url: https://nclcorp.sharepoint.com/SitePages/NCLH-Teams.aspx
+      title: Intranet
+spec:
+  type: organization
+  profile:
+    displayName: Norwegian Cruise Line 
+    email: info@example.com
+    picture: https://avatars.dicebear.com/api/jdenticon/as1d12d234234.svg?background=%23fff&margin=25
+  children: [zero]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: Zero Teams
+  description: All NCL Teams
+spec:
+  targets:
+    - ./zero-group.yaml
+    - ./zero-team-nomads.yaml
+    - ./zero-team-survivors.yaml
