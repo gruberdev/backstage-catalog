@@ -15,6 +15,7 @@ spec:
     displayName: Norwegian Cruise Line 
     email: info@example.com
     picture: https://avatars.dicebear.com/api/jdenticon/as1d12d234234.svg?background=%23fff&margin=25
+  children: [emerging-technologies]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Location
